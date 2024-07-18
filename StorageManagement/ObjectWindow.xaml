@@ -1,0 +1,87 @@
+﻿<Window x:Class="StorageManagement.ObjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StorageManagement"
+        mc:Ignorable="d"
+                                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+xmlns:uc="clr-namespace:StorageManagement.MyUserControl"
+xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+WindowStyle="None"
+        Name="window"
+        Title="Material" Height="600" Width="900"
+        DataContext="{StaticResource ObjectVM}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <uc:ControlBarUC Tag="{Binding Title, ElementName=window}"></uc:ControlBarUC>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <materialDesign:Card Grid.Row="0" Margin="5">
+                <Grid>
+                    <WrapPanel Margin="0 0 0 12">
+                        <TextBox Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" Width="100" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="Material Name"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <ComboBox Margin="5 5 15 -5" Width="100"
+                                  DisplayMemberPath="DisplayName"
+                                  ItemsSource="{Binding Unit}" SelectedItem="{Binding SelectedUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          materialDesign:ComboBoxAssist.MaxLength="2"
+                          materialDesign:HintAssist.Hint="Unit"
+                          materialDesign:HintAssist.HintOpacity=".26"
+                          IsEditable="True"
+                         ></ComboBox>
+                        <ComboBox Margin="5 5 15 -5" Width="100"
+                                  ItemsSource="{Binding SupplierList}"
+                                  SelectedItem="{Binding SelectedSupplier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="DisplayName"
+                          materialDesign:ComboBoxAssist.MaxLength="2"
+                          materialDesign:HintAssist.Hint="Supplier"
+                          materialDesign:HintAssist.HintOpacity=".26"
+                          IsEditable="True"></ComboBox>
+                        <TextBox Text="{Binding QRCode, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" Width="100" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="QR Code"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <TextBox Text="{Binding BarCode, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" Width="100" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="Bar Code"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    </WrapPanel>
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="1" Margin="5">
+                <WrapPanel>
+                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5" Content="Add" Width="100" Command="{Binding AddCommand}"></Button>
+                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5" Content="Edit" Width="100" Command="{Binding EditCommand}"></Button>
+                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5" Content="Delete" Width="100" Command="{Binding DeleteCommand}"></Button>
+                </WrapPanel>
+            </materialDesign:Card>
+            <materialDesign:Card Margin="5" Grid.Row="2" VerticalAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView ItemsSource="{Binding ObjectList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" HorizontalContentAlignment="Center">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="80"></GridViewColumn>
+                                <GridViewColumn Header="Display Name" DisplayMemberBinding="{Binding DisplayName}" Width="150"></GridViewColumn>
+                                <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding IdUnitNavigation.DisplayName}" Width="120"></GridViewColumn>
+                                <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding IdSupplierNavigation.DisplayName}" Width="120"></GridViewColumn>
+                                <GridViewColumn Header="QR Code" DisplayMemberBinding="{Binding QRCode}" Width="150"></GridViewColumn>
+                                <GridViewColumn Header="Bar Code" DisplayMemberBinding="{Binding BarCode}" Width="150"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</Window>
